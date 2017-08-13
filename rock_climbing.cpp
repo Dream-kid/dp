@@ -1,56 +1,36 @@
+//http://codeforces.com/problemset/problem/505/C
 #include<bits/stdc++.h>
+typedef long long  lli;
 using namespace std;
-typedef long long lli;
-int ara[30005],dp[30005][500],n,d;
 
-int call(int l,int step)
+lli ara[30010],dp[30010][502],b;
+lli rock_climbing(lli dis,lli pos)
 {
-    cout<<l<<" "<<step<<endl;
-    if(l<0 || l>30000 || (step+d)<=0)
-        return 0;
-    int &ret=dp[l][step];
+    if(dis<0||dis>30000||(b+pos)<=0) return 0;
+    lli &p=dp[dis][pos];
+    if(p!=-1) return p;
+    p=0;
+    p=max(p,rock_climbing(dis+pos+b,pos));
+    p=max(p,rock_climbing(dis+pos+b+1,pos+1));
+    p=max(p,rock_climbing(dis+pos+b-1,pos-1));
+    p+=ara[dis];
+    return p;
 
-    if(ret!=-1)
-        return ret;
-    ret=0;
-    ret=max(ret,call(l+d+step,step));
-    cout<<"...............1st.............."<<endl;
-   
- 
-    ret=max(ret,call(l+d+step-1,step-1)); 
-    cout<<"...............2nd.............."<<endl;
-    ret=max(ret,call(l+d+step+1,step+1));  
-     cout<<"...............3rd.............."<<endl;
-
-    ret+=ara[l]; 
-        cout<<"...............4th.............."<<endl;
-       
-    return ret;
-     cout<<"...............5th.............."<<endl;
 
 }
-
-
 int main()
 {
-    freopen("out.txt","w",stdout);
-	int t,cas=0;
+    lli a;
+    cin>>a>>b;
+    for(lli i=0; i<a; i++)
+    {
+        lli p;
+        cin>>p;
+        ara[p]++;
 
-	cin>>n>>d;
-	for(lli i=0;i<n;i++)
-	{
-	   lli  p;
-	    cin>>p;
-	    ara[p]++;
-	}
-	memset(dp,-1,sizeof(dp));
+    }
+    memset(dp,-1,sizeof(dp));
+    cout<<rock_climbing(b,0);
 
-	cout<<call(d,0);
-
-/*4 10
-10
-21
-27
-27*/
 
 }
