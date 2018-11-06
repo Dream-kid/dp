@@ -1,0 +1,72 @@
+//digit dp 
+//how many 1 in range
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define inf 1000000
+string str;
+ll val;
+ll dp[2][10][500][2];
+ll calc(ll is_small,ll pos,ll cnt,ll is_start)
+{
+    if(pos==str.size())
+        return cnt;
+    ll temp=9;
+    ll &res=dp[is_small][pos][cnt][is_start];
+    if(res!=-1)
+        return res;
+    if(is_small)
+        temp=str[pos]-'0';
+    ll ans=0;
+    for(ll i=0; i<temp; i++)
+    {
+        ll type=0;
+        if(i==val)
+            type=1;
+        if(val==0&&is_start)
+            type=0;
+        if(i==0&&is_start)
+        {
+            ans+=calc(0,pos+1,cnt+type,1);
+        }
+        else
+            ans+=calc(0,pos+1,cnt+type,0);
+    }
+    ll type=0;
+    ll pt=0;
+    if(temp==0&&is_start)
+        pt=1;
+    if(temp==val)
+        type=1;
+    if(val==0&&is_start)
+        type=0;
+    ans+=calc(is_small,pos+1,cnt+type,pt);
+    return res=ans;
+}
+int main()
+{
+    while(1)
+    {
+        ll val1;
+        string str1,str2;
+        cin>>val1>>str2;
+        if(val1==0&&str2=="0")
+            return 0;
+        stringstream c;
+        val1--;
+        c<<val1;
+        c>>str1;
+        for(ll i=0; i<=9; i++)
+        {
+            if(i)
+                cout<<" ";
+            str=str1;
+            val=i;
+            memset(dp,-1,sizeof dp);
+            ll st=calc(1,0,0,1);
+            str=str2;
+            memset(dp,-1,sizeof dp);
+            ll st1=calc(1,0,0,1);
+            cout<<st1-st;}
+        cout<<endl;}}
+    
